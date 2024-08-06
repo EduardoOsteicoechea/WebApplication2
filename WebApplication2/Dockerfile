@@ -7,7 +7,7 @@ COPY WebApplication2/*.csproj ./
 RUN dotnet restore
 
 # Copy the rest of the project
-COPY WebApplication2 .
+COPY . .
 
 # Build the application
 RUN dotnet publish -c Release -o /out
