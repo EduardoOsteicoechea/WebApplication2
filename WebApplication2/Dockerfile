@@ -1,0 +1,24 @@
+# Use a minimal .NET 8 SDK image as the base
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+WORKDIR /app
+
+# Copy the csproj and restore dependencies
+COPY WebApplication2/*.csproj ./
+RUN dotnet restore
+
+# Copy the rest of the project
+COPY . .
+
+# Build the application
+RUN dotnet publish -c Release -o /out
+
+# Use a minimal .NET 8 runtime image as the base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+WORKDIR /app
+COPY --from=build /app/out .
+
+# Expose the port used by the application
+EXPOSE 80
+
+# Start the application
+ENTRYPOINT ["dotnet", "WebApplication2.dll"]
