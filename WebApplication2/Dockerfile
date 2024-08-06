@@ -1,9 +1,9 @@
 # Use a minimal .NET 8 SDK image as the base
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy the csproj and restore dependencies
-COPY WebApplication2/*.csproj ./
+COPY *.csproj ./
 RUN dotnet restore
 
 # Copy the rest of the project
@@ -13,7 +13,7 @@ COPY . .
 RUN dotnet publish -c Release -o /out
 
 # Use a minimal .NET 8 runtime image as the base
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
 
