@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy the csproj and restore dependencies
+# Copy the csproj and restore dependencie
 COPY *.csproj ./
 RUN dotnet restore
 
